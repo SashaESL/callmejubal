@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile - Call Me Jubal</title>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 60px; background: #f0f4f8; }
+        .container { background: white; padding: 40px; border-radius: 20px; max-width: 500px; margin: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        select { padding: 10px; border-radius: 8px; border: 2px solid #e2e8f0; width: 100%; margin: 10px 0; }
+        .btn { padding: 12px 30px; background: #2b6cb0; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        .btn:hover { background: #1a365d; }
+        .flash { padding: 10px; border-radius: 8px; margin: 10px 0; }
+        .flash-success { background: #f0fff4; border: 2px solid #38a169; }
+        a { color: #2b6cb0; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👤 Profile</h1>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="post">
+            <label for="language">🌍 Choose your language:</label>
+            <select name="language" id="language">
+                {% for lang in languages %}
+                    <option value="{{ lang }}" {% if user.language == lang %}selected{% endif %}>
+                        {{ lang.capitalize() }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="folder">📂 Choose your folder:</label>
+            <select name="folder" id="folder">
+                {% for f in folders %}
+                    <option value="{{ f }}" {% if user.folder == f %}selected{% endif %}>
+                        {{ f.capitalize() }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn">Update Preferences</button>
+        </form>
+
+        <p><a href="/">← Back to Home</a></p>
+        <p><a href="/logout">🚪 Logout</a></p>
+    </div>
+</body>
+</html>

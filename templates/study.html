@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Study Game - MedFlash</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f0f4f8; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .container { text-align: center; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 500px; width: 90%; }
+        h1 { color: #2b6cb0; margin-bottom: 10px; }
+        .card { background: #ebf8ff; padding: 40px; border-radius: 16px; margin: 20px 0; min-height: 150px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; }
+        .card:hover { transform: scale(1.02); }
+        .card .term { font-size: 2rem; font-weight: bold; color: #2d3748; }
+        .card .translation { font-size: 1.8rem; color: #2b6cb0; display: none; }
+        .card .category { margin-top: 10px; background: #bee3f8; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; color: #2a69ac; }
+        .btn { padding: 12px 30px; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; margin: 5px; transition: 0.3s; }
+        .btn-primary { background: #2b6cb0; color: white; }
+        .btn-primary:hover { background: #1a365d; transform: translateY(-2px); }
+        .btn-success { background: #38a169; color: white; }
+        .btn-success:hover { background: #2f855a; }
+        .btn-danger { background: #e53e3e; color: white; }
+        .btn-danger:hover { background: #c53030; }
+        .btn-secondary { background: #a0aec0; color: white; }
+        .btn-secondary:hover { background: #718096; }
+        .hidden { display: none; }
+        .progress { margin: 15px 0; color: #4a5568; }
+        .back-link { display: block; margin-top: 20px; color: #2b6cb0; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 MedFlash Study Game</h1>
+        <p id="progressText" class="progress">Card 1 of {{ cards|length }}</p>
+
+        <div class="card" id="card">
+            <div class="term" id="term"></div>
+            <div class="translation" id="translation"></div>
+            <div class="category" id="category"></div>
+        </div>
+
+        <div id="actionButtons">
+            <button class="btn btn-primary" id="flipBtn" onclick="flipCard()">🔍 Show Translation</button>
+        </div>
+
+        <div id="ratingButtons" class="hidden">
+            <button class="btn btn-success" onclick="rateCard('correct')">✅ Correct</button>
+            <button class="btn btn-danger" onclick="rateCard('wrong')">❌ Wrong</button>
+            <button class="btn btn-secondary" onclick="rateCard('skip')">⏭️ Skip</button>
+        </div>
+
+        <button class="btn btn-secondary" id="speakBtn" onclick="speakCard()" style="margin-top:10px;">🔊 Listen</button>
+        <a href="/" class="back-link">← Back to Home</a>
+    </div>
+
+    <script>
+        const cards = [
+            {% for card in cards %}
+            { id: {{ card.id }}, english: "{{ card.english }}", russian: "{{ card.russian }}", category: "{{ card.category }}" },
+            {% endfor %}
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        function showCard() {
+            const card = cards[currentIndex];
+            document.getElementById('term').textContent = card.english;
+            document.getElementById('translation').textContent = card.russian;
+            document.getElementById('category').textContent = card.category;
+            document.getElementById('translation').style.display = 'none';
+            document.getElementById('term').style.display = 'block';
+            document.getElementById('flipBtn').classList.remove('hidden');
+            document.getElementById('ratingButtons').classList.add('hidden');
+            document.getElementById('progressText').textContent = `Card ${currentIndex + 1} of ${cards.length}`;
+            isFlipped = false;
+        }
+
+        function flipCard() {
+            document.getElementById('translation').style.display = 'block';
+            document.getElementById('term').style.display = 'none';
+            document.getElementById('flipBtn').classList.add('hidden');
+            document.getElementById('ratingButtons').classList.remove('hidden');
+            isFlipped = true;
+            speakCard();
+        }
+
+        function rateCard(result) {
+            const card = cards[currentIndex];
+            fetch(`/api/study/${card.id}/russian/${result}`)
+                .then(() => {
+                    currentIndex++;
+                    if (currentIndex < cards.length) {
+                        showCard();
+                    } else {
+                        document.getElementById('card').innerHTML = '<h2>🎉 Session Complete!</h2><p>You reviewed all cards!</p>';
+                        document.getElementById('actionButtons').classList.add('hidden');
+                        document.getElementById('ratingButtons').classList.add('hidden');
+                        document.getElementById('speakBtn').classList.add('hidden');
+                        document.getElementById('progressText').textContent = '🎊 Done!';
+                    }
+                });
+        }
+
+        function speakCard() {
+            const text = document.getElementById('term').textContent;
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.8;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('Sorry, your browser does not support speech synthesis.');
+            }
+        }
+
+        // Show first card
+        showCard();
+    </script>
+</body>
+</html>

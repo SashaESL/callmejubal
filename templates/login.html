@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Call Me Jubal</title>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 60px; background: #f0f4f8; }
+        .container { background: white; padding: 40px; border-radius: 20px; max-width: 400px; margin: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; }
+        .btn { padding: 12px 30px; background: #2b6cb0; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; }
+        .btn:hover { background: #1a365d; }
+        .flash { padding: 10px; border-radius: 8px; margin: 10px 0; }
+        .flash-success { background: #f0fff4; border: 2px solid #38a169; }
+        .flash-danger { background: #fff5f5; border: 2px solid #e53e3e; }
+        .flash-warning { background: #fffbeb; border: 2px solid #ed8936; }
+        .flash-info { background: #ebf8ff; border: 2px solid #2b6cb0; }
+        a { color: #2b6cb0; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Login</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p style="margin-top: 20px;">Don't have an account? <a href="/register">Register</a></p>
+        <p><a href="/">← Back</a></p>
+    </div>
+</body>
+</html>

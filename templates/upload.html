@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload - MedFlash</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); max-width: 700px; width: 90%; }
+        h1 { color: #2b6cb0; text-align: center; margin-bottom: 10px; }
+        p { text-align: center; color: #4a5568; margin-bottom: 20px; }
+        .info { background: #ebf8ff; padding: 15px; border-radius: 10px; margin: 20px 0; font-size: 0.9rem; }
+        .info code { background: #d2e8ff; padding: 2px 8px; border-radius: 4px; }
+        .upload-form { display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0; }
+        .upload-form input[type="file"] { padding: 10px; border: 2px dashed #cbd5e0; border-radius: 10px; width: 100%; cursor: pointer; }
+        .upload-form input[type="file"]:hover { border-color: #2b6cb0; }
+        .btn { padding: 12px 40px; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-primary { background: #2b6cb0; color: white; }
+        .btn-primary:hover { background: #1a365d; transform: translateY(-2px); }
+        .btn-success { background: #38a169; color: white; }
+        .btn-success:hover { background: #2f855a; }
+        .btn-secondary { background: #a0aec0; color: white; }
+        .btn-secondary:hover { background: #718096; }
+        .alert { padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .alert-success { background: #f0fff4; border: 2px solid #38a169; color: #2d3748; }
+        .alert-error { background: #fff5f5; border: 2px solid #e53e3e; color: #2d3748; }
+        .back-link { display: block; text-align: center; margin-top: 20px; color: #2b6cb0; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+        .manual-add { margin-top: 30px; padding-top: 30px; border-top: 2px solid #e2e8f0; }
+        .manual-add h3 { text-align: center; color: #2d3748; }
+        .manual-form { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .manual-form input { padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem; }
+        .manual-form input:focus { outline: none; border-color: #2b6cb0; }
+        .manual-form .full-width { grid-column: span 2; }
+        .manual-form .btn { grid-column: span 2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📤 Upload Medical Terms</h1>
+        <p>Upload a CSV file with columns: <strong>english, russian, spanish, arabic, french, german, chinese, thai, filipino, category</strong></p>
+
+        <div class="info">
+            💡 <strong>Example:</strong><br>
+            <code>english,russian,category</code><br>
+            <code>blood pressure,кровяное давление,vitals</code><br>
+            <code>heart attack,инфаркт,emergency</code>
+        </div>
+
+        {% if error %}
+        <div class="alert alert-error">{{ error }}</div>
+        {% endif %}
+
+        {% if success %}
+        <div class="alert alert-success">
+            ✅ Successfully imported <strong>{{ count }}</strong> cards from <strong>{{ filename }}</strong>!
+            <br><br>
+            <a href="/study" class="btn btn-success">📖 Start Studying</a>
+        </div>
+        {% endif %}
+
+        <!-- UPLOAD FORM (FIXED) -->
+        <form method="post" enctype="multipart/form-data" class="upload-form">
+            <input type="file" name="file" accept=".csv" required>
+            <button type="submit" class="btn btn-primary">📤 Upload</button>
+        </form>
+
+        <a href="/" class="back-link">← Back to Home</a>
+
+        <!-- MANUAL ADD SECTION -->
+        <div class="manual-add">
+            <h3>➕ Or Add a Single Card Manually</h3>
+            <form action="/add" method="post" class="manual-form">
+                <input type="text" name="english" placeholder="English term" required>
+                <input type="text" name="russian" placeholder="Russian translation">
+                <input type="text" name="spanish" placeholder="Spanish">
+                <input type="text" name="arabic" placeholder="Arabic">
+                <input type="text" name="french" placeholder="French">
+                <input type="text" name="german" placeholder="German">
+                <input type="text" name="chinese" placeholder="Chinese">
+                <input type="text" name="thai" placeholder="Thai">
+                <input type="text" name="filipino" placeholder="Filipino">
+                <input type="text" name="category" placeholder="Category (e.g., vitals)" class="full-width">
+                <button type="submit" class="btn btn-success">➕ Add Card</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

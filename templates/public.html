@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Me Jubal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background: white; padding: 50px; border-radius: 20px; max-width: 600px; width: 90%; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        h1 { color: #2b6cb0; font-size: 2.5rem; margin-bottom: 10px; }
+        .subtitle { color: #4a5568; font-size: 1.2rem; margin-bottom: 20px; }
+        .features { text-align: left; margin: 30px 0; }
+        .features li { list-style: none; padding: 8px 0; color: #2d3748; }
+        .features li::before { content: "✅ "; }
+        .btn { display: inline-block; padding: 15px 30px; margin: 10px; border-radius: 10px; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .btn-primary { background: #2b6cb0; color: white; }
+        .btn-primary:hover { background: #1a365d; transform: translateY(-2px); }
+        .btn-success { background: #38a169; color: white; }
+        .btn-success:hover { background: #2f855a; transform: translateY(-2px); }
+        .btn-secondary { background: #a0aec0; color: white; }
+        .btn-secondary:hover { background: #718096; }
+        .footer { margin-top: 30px; color: #718096; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📖 Call Me Jubal</h1>
+        <p class="subtitle">Medical Interpreter Training</p>
+        <p style="font-size: 1.1rem; color: #4a5568;">🌍 9 Languages • 🔊 Voice • 📤 Upload • 🎮 Games</p>
+
+        <div class="features">
+            <li>Medical terminology from MD Anderson</li>
+            <li>Upload your own vocabulary</li>
+            <li>Study in your native language</li>
+            <li>Auto-generated tests</li>
+            <li>Track your progress</li>
+        </div>
+
+        <div>
+            <a href="/login" class="btn btn-primary">🔐 Login</a>
+            <a href="/register" class="btn btn-success">📝 Register</a>
+        </div>
+
+        <p class="footer">"No titles. Just truth. Just learning."</p>
+    </div>
+</body>
+</html>
