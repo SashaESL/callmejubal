@@ -11,7 +11,7 @@ import pyttsx3
 import threading
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-here'
+app.secret_key = 'MbvyK2z3xzzC9ne4p4RB4mGzF3Q9yLg8eKeLDBCbxtA'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flashcards.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'uploads'
