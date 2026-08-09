@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Study Game - MedFlash</title>
+    <title>Study Game - Call Me Jubal</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: #f0f4f8; display: flex; justify-content: center; align-items: center; height: 100vh; }
@@ -12,6 +12,7 @@
         .card:hover { transform: scale(1.02); }
         .card .term { font-size: 2rem; font-weight: bold; color: #2d3748; }
         .card .translation { font-size: 1.8rem; color: #2b6cb0; display: none; }
+        .card .definition { font-size: 1rem; color: #4a5568; margin-top: 10px; border-top: 1px solid #e2e8f0; padding-top: 10px; display: none; }
         .card .category { margin-top: 10px; background: #bee3f8; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; color: #2a69ac; }
         .btn { padding: 12px 30px; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; margin: 5px; transition: 0.3s; }
         .btn-primary { background: #2b6cb0; color: white; }
@@ -29,12 +30,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>🎮 MedFlash Study Game</h1>
+        <h1>🎮 Call Me Jubal Study Game</h1>
         <p id="progressText" class="progress">Card 1 of {{ cards|length }}</p>
 
         <div class="card" id="card">
             <div class="term" id="term"></div>
             <div class="translation" id="translation"></div>
+            <div class="definition" id="definition"></div>
             <div class="category" id="category"></div>
         </div>
 
@@ -53,9 +55,31 @@
     </div>
 
     <script>
+        // Get the user's selected language from the server
+        const userLanguage = "{{ user.language if user and user.language else 'russian' }}";
+
+        // Language names for display
+        const languageNames = {
+            'english': 'English',
+            'russian': 'Russian',
+            'spanish': 'Spanish',
+            'arabic': 'Arabic',
+            'french': 'French',
+            'german': 'German',
+            'chinese': 'Chinese',
+            'thai': 'Thai',
+            'filipino': 'Filipino'
+        };
+
         const cards = [
             {% for card in cards %}
-            { id: {{ card.id }}, english: "{{ card.english }}", russian: "{{ card.russian }}", category: "{{ card.category }}" },
+            { 
+                id: {{ card.id }}, 
+                english: "{{ card.english }}", 
+                translation: "{{ card[user.language if user and user.language else 'russian'] or card.russian }}",
+                definition: "{{ card.definition or '' }}", 
+                category: "{{ card.category }}" 
+            },
             {% endfor %}
         ];
 
@@ -65,10 +89,14 @@
         function showCard() {
             const card = cards[currentIndex];
             document.getElementById('term').textContent = card.english;
-            document.getElementById('translation').textContent = card.russian;
+            document.getElementById('translation').textContent = card.translation;
+            document.getElementById('definition').textContent = card.definition || '';
             document.getElementById('category').textContent = card.category;
+            
             document.getElementById('translation').style.display = 'none';
+            document.getElementById('definition').style.display = 'none';
             document.getElementById('term').style.display = 'block';
+            
             document.getElementById('flipBtn').classList.remove('hidden');
             document.getElementById('ratingButtons').classList.add('hidden');
             document.getElementById('progressText').textContent = `Card ${currentIndex + 1} of ${cards.length}`;
@@ -77,6 +105,9 @@
 
         function flipCard() {
             document.getElementById('translation').style.display = 'block';
+            if (document.getElementById('definition').textContent) {
+                document.getElementById('definition').style.display = 'block';
+            }
             document.getElementById('term').style.display = 'none';
             document.getElementById('flipBtn').classList.add('hidden');
             document.getElementById('ratingButtons').classList.remove('hidden');
@@ -86,7 +117,7 @@
 
         function rateCard(result) {
             const card = cards[currentIndex];
-            fetch(`/api/study/${card.id}/russian/${result}`)
+            fetch(`/api/study/${card.id}/${userLanguage}/${result}`)
                 .then(() => {
                     currentIndex++;
                     if (currentIndex < cards.length) {

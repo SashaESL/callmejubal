@@ -1,0 +1,16 @@
+PROPRIETARY LICENSE
+
+Copyright (c) 2026 Victoria (SashaESL)
+
+All rights reserved.
+
+This software and its source code are the exclusive property of Victoria (SashaESL).
+No part of this software may be reproduced, distributed, or transmitted in any form
+or by any means, without the prior written permission of the owner.
+
+You may not:
+- Copy, modify, or distribute this software without explicit permission
+- Use this software for commercial purposes without a license agreement
+- Reverse engineer, decompile, or disassemble this software
+
+For licensing inquiries, contact: callmejubal@gmail.com

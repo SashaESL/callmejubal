@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload - MedFlash</title>
+    <title>Upload - Call Me Jubal</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: #f0f4f8; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); max-width: 700px; width: 90%; }
+        .container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); max-width: 750px; width: 90%; }
         h1 { color: #2b6cb0; text-align: center; margin-bottom: 10px; }
-        p { text-align: center; color: #4a5568; margin-bottom: 20px; }
+        .subtitle { text-align: center; color: #4a5568; margin-bottom: 20px; }
         .info { background: #ebf8ff; padding: 15px; border-radius: 10px; margin: 20px 0; font-size: 0.9rem; }
         .info code { background: #d2e8ff; padding: 2px 8px; border-radius: 4px; }
         .upload-form { display: flex; flex-direction: column; align-items: center; gap: 15px; margin: 20px 0; }
@@ -34,20 +34,28 @@
         .manual-form input:focus { outline: none; border-color: #2b6cb0; }
         .manual-form .full-width { grid-column: span 2; }
         .manual-form .btn { grid-column: span 2; }
+        .help-section { background: #f7fafc; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #2b6cb0; }
+        .help-section h3 { color: #2d3748; margin-bottom: 10px; }
+        .help-section ol { padding-left: 20px; line-height: 1.8; }
+        .help-section code { background: #edf2f7; padding: 2px 6px; border-radius: 4px; font-size: 0.85rem; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>📤 Upload Medical Terms</h1>
-        <p>Upload a CSV file with columns: <strong>english, russian, spanish, arabic, french, german, chinese, thai, filipino, category</strong></p>
+        <p class="subtitle">Add your own vocabulary to Call Me Jubal</p>
 
+        <!-- Example Section -->
         <div class="info">
-            💡 <strong>Example:</strong><br>
-            <code>english,russian,category</code><br>
-            <code>blood pressure,кровяное давление,vitals</code><br>
-            <code>heart attack,инфаркт,emergency</code>
+            💡 <strong>Example CSV with definitions:</strong><br>
+            <code>english,definition,category</code><br>
+            <code>Medicare Summary Notice (MSN),An explanation of benefits sent to the Medicare beneficiary.,Insurance</code><br>
+            <code>Out-of-Pocket Maximum,The maximum amount a patient will pay in a year before insurance covers 100% of costs.,Insurance</code>
+            <br><br>
+            <strong>📚 Full columns:</strong> english, russian, spanish, arabic, french, german, chinese, thai, filipino, definition, category
         </div>
 
+        <!-- Flash Messages -->
         {% if error %}
         <div class="alert alert-error">{{ error }}</div>
         {% endif %}
@@ -60,15 +68,27 @@
         </div>
         {% endif %}
 
-        <!-- UPLOAD FORM (FIXED) -->
+        <!-- Help Section -->
+        <div class="help-section">
+            <h3>📤 How to Upload Your Own Terms</h3>
+            <ol>
+                <li>Create a CSV or Excel file with columns: <code>english, russian, spanish, arabic, french, german, chinese, thai, filipino, definition,           category</code></li>
+                <li>Save it as <code>.csv</code> or <code>.xlsx</code> (Excel files work too!)</li>
+                <li>Click "Choose File" and select your CSV</li>
+                <li>Click "Upload" — your cards will appear instantly!</li>
+            </ol>
+            <p style="margin-top: 10px;"><strong>📧 Need help?</strong> Contact me at <a href="mailto:callmejubal@gmail.com">callmejubal@gmail.com</a></p>
+        </div>
+
+        <!-- Upload Form -->
         <form method="post" enctype="multipart/form-data" class="upload-form">
-            <input type="file" name="file" accept=".csv" required>
+            <input type="file" name="file" accept=".csv,.xlsx" required>
             <button type="submit" class="btn btn-primary">📤 Upload</button>
         </form>
 
         <a href="/" class="back-link">← Back to Home</a>
 
-        <!-- MANUAL ADD SECTION -->
+        <!-- Manual Add Section -->
         <div class="manual-add">
             <h3>➕ Or Add a Single Card Manually</h3>
             <form action="/add" method="post" class="manual-form">
@@ -81,7 +101,8 @@
                 <input type="text" name="chinese" placeholder="Chinese">
                 <input type="text" name="thai" placeholder="Thai">
                 <input type="text" name="filipino" placeholder="Filipino">
-                <input type="text" name="category" placeholder="Category (e.g., vitals)" class="full-width">
+                <input type="text" name="definition" placeholder="Definition (English explanation)" class="full-width">
+                <input type="text" name="category" placeholder="Category (e.g., vitals, Insurance)" class="full-width">
                 <button type="submit" class="btn btn-success">➕ Add Card</button>
             </form>
         </div>
