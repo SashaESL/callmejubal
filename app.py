@@ -530,6 +530,10 @@ def reset_password(token):
     
     return render_template('reset_password.html')
 
+@app.route('/pricing')
+def pricing():
+    return render_template('pricing.html')
+
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'user_id' not in session:

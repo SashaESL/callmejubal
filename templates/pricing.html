@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pricing - Call Me Jubal</title>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 50px; background: #f0f4f8; }
+        .pricing-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .pricing-card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 250px; }
+        .pricing-card h2 { color: #2b6cb0; }
+        .pricing-card .price { font-size: 2rem; font-weight: bold; color: #1a365d; }
+        .btn-buy { display: inline-block; padding: 12px 30px; background: #2b6cb0; color: white; text-decoration: none; border-radius: 8px; margin-top: 15px; }
+        .btn-buy:hover { background: #1a365d; }
+        .btn-trial { background: #38a169; }
+        .btn-trial:hover { background: #2f855a; }
+    </style>
+</head>
+<body>
+    <h1>💙 Choose Your Plan</h1>
+    <p>Start for free, upgrade anytime.</p>
+
+    <div class="pricing-container">
+        <!-- Free Trial -->
+        <div class="pricing-card">
+            <h2>🎁 Free Trial</h2>
+            <p class="price">$0</p>
+            <p>7-day trial</p>
+            <ul style="text-align: left; padding-left: 20px;">
+                <li>💙 10 sample cards</li>
+                <li>💙 Study mode</li>
+                <li>💙 9 languages</li>
+            </ul>
+            <a href="/trial" class="btn-buy btn-trial">Start Trial</a>
+        </div>
+
+        <!-- Monthly -->
+        <div class="pricing-card">
+            <h2>📅 Monthly</h2>
+            <p class="price">$9 / mo</p>
+            <ul style="text-align: left; padding-left: 20px;">
+                <li>💙 Full access</li>
+                <li>💙 Unlimited cards</li>
+                <li>💙 Upload your own vocabulary</li>
+                <li>💙 All 9 languages</li>
+            </ul>
+            <a href="https://boosty.to/callmejubal" class="btn-buy">Subscribe</a>
+        </div>
+
+        <!-- Lifetime -->
+        <div class="pricing-card">
+            <h2>🌟 Lifetime</h2>
+            <p class="price">$49</p>
+            <ul style="text-align: left; padding-left: 20px;">
+                <li>💙 Full access forever</li>
+                <li>💙 All future updates</li>
+                <li>💙 Priority support</li>
+            </ul>
+            <a href="https://boosty.to/callmejubal" class="btn-buy">Buy Lifetime</a>
+        </div>
+    </div>
+    <p style="margin-top: 30px;"><a href="/">← Back to Home</a></p>
+</body>
+</html>
