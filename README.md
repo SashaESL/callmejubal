@@ -50,23 +50,23 @@ Call Me Jubal is a web-based flashcard app designed for medical interpreters to 
 
 
 
-\- ✅ \*\*9 Languages\*\* — Study medical terms in your native language
+\- ☑️ \*\*9 Languages\*\* — Study medical terms in your native language
 
-\- ✅ \*\*Voice\*\* — Hear English pronunciation
+\- ☑️ \*\*Voice\*\* — Hear English pronunciation
 
-\- ✅ \*\*Study Mode\*\* — Flip cards and rate yourself
+\- ☑️ \*\*Study Mode\*\* — Flip cards and rate yourself
 
-\- ✅ \*\*Test Mode\*\* — Multiple choice quizzes
+\- ☑️ \*\*Test Mode\*\* — Multiple choice quizzes
 
-\- ✅ \*\*CSV Upload\*\* — Add your own vocabulary (CSV and Excel supported!)
+\- ☑️ \*\*CSV Upload\*\* — Add your own vocabulary (CSV and Excel supported!)
 
-\- ✅ \*\*Definitions\*\* — English-to-English explanations
+\- ☑️ \*\*Definitions\*\* — English-to-English explanations
 
-\- ✅ \*\*User Accounts\*\* — Save your progress
+\- ☑️ \*\*User Accounts\*\* — Save your progress
 
-\- ✅ \*\*Password Reset\*\* — Secure email recovery
+\- ☑️ \*\*Password Reset\*\* — Secure email recovery
 
-\- ✅ \*\*Language Selector\*\* — Switch languages instantly
+\- ☑️ \*\*Language Selector\*\* — Switch languages instantly
 
 
 
@@ -144,7 +144,7 @@ For licensing inquiries, support, or questions:
 
 
 
-This project is proprietary and confidential.  
+This project is proprietary and confidential.
 
 All rights reserved. Unauthorized copying, modification, or distribution is prohibited.
 
