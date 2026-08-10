@@ -14,6 +14,9 @@
         .language-selector { margin: 20px 0; }
         .language-selector select { padding: 10px; border-radius: 8px; border: 2px solid #e2e8f0; margin-left: 10px; font-size: 1rem; }
         .language-selector label { font-weight: bold; }
+        .sample-words { background: #ebf8ff; padding: 15px; border-radius: 10px; margin: 20px auto; max-width: 600px; }
+        .sample-words ul { list-style: none; padding: 0; }
+        .sample-words li { display: inline-block; background: white; padding: 5px 15px; margin: 5px; border-radius: 15px; border: 1px solid #bee3f8; }
     </style>
 </head>
 <body>
@@ -36,6 +39,26 @@
         </select>
     </div>
 
+    <!-- Sample Words Display -->
+    <div class="sample-words">
+        <p><strong>📚 Sample Vocabulary (20+ terms):</strong></p>
+        <ul>
+            <li>blood pressure</li>
+            <li>heart attack</li>
+            <li>fever</li>
+            <li>headache</li>
+            <li>diabetes</li>
+            <li>allergy</li>
+            <li>prescription</li>
+            <li>surgery</li>
+            <li>vaccine</li>
+            <li>Medicare Summary Notice</li>
+            <li>Deductible</li>
+            <li>Copayment</li>
+        </ul>
+        <p style="font-size: 0.9rem; color: #4a5568;">+ 10 more insurance terms!</p>
+    </div>
+
     <!-- Buttons -->
     <div>
         <a href="/upload" class="btn">📤 Upload CSV</a>
@@ -44,7 +67,7 @@
         <a href="/study" class="btn btn-warning">📖 Study</a>
     </div>
 
-    <p style="margin-top: 40px; color: #718096;">Welcome, amazing learners! Ready to grow your brains? 🎉</p>
+    <p style="margin-top: 40px; color: #718096;">Welcome, {{ username }}! Ready to grow your brain? 🎉</p>
 
     <script>
     function changeLanguage() {
