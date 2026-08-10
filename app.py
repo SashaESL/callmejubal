@@ -703,6 +703,10 @@ def test():
     user = User.query.get(session['user_id'])
     return render_template('test.html', user=user)
 
+@app.route('/trial')
+def trial():
+    return render_template('trial.html')
+
 @app.route('/api/test-questions')
 def test_questions():
     if 'user_id' not in session:
