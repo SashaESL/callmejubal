@@ -83,7 +83,7 @@ class Flashcard(db.Model):
     chinese = db.Column(db.String(200))
     thai = db.Column(db.String(200))
     filipino = db.Column(db.String(200))
-    definition = db.Column(db.Text)  # ← ADD THIS!
+    definition = db.Column(db.Text)
     category = db.Column(db.String(100))
     folder = db.Column(db.String(100), default='general')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -106,7 +106,7 @@ class Flashcard(db.Model):
             'chinese': self.chinese,
             'thai': self.thai,
             'filipino': self.filipino,
-            'definition': self.definition,  # ← ADD THIS!
+            'definition': self.definition,
             'category': self.category,
             'folder': self.folder,
             'correct_count': self.correct_count,
@@ -142,6 +142,9 @@ This link will expire in 1 hour.
     except Exception as e:
         print(f"Email error: {e}")
 
+# ------------------------------------------------------------
+# AUTHENTICATION ROUTES
+# ------------------------------------------------------------
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -165,7 +168,7 @@ def register():
         all_terms = [
             {
                 'english': 'blood pressure',
-                'russian': 'кровяное давление',
+                'russian': 'кровяное / артериальное давление',
                 'spanish': 'presión arterial',
                 'arabic': 'ضغط الدم',
                 'french': 'tension artérielle',
@@ -178,7 +181,7 @@ def register():
             },
             {
                 'english': 'heart attack',
-                'russian': 'инфаркт',
+                'russian': 'инфаркт, сердечный приступ',
                 'spanish': 'ataque al corazón',
                 'arabic': 'نوبة قلبية',
                 'french': 'crise cardiaque',
@@ -294,56 +297,56 @@ def register():
                 'definition': 'Substance that stimulates immunity'
             },
             {
-                'english': 'Medicare Summary Notice (MSN)',
-                'russian': 'Объяснение льгот',
-                'spanish': 'Aviso de Resumen de Medicare',
-                'arabic': 'إشعار ملخص ميديكير',
-                'french': 'Explication des avantages',
-                'german': 'Leistungsübersicht',
-                'chinese': '医疗保险摘要',
-                'thai': 'สรุปสิทธิประโยชน์',
-                'filipino': 'Paalala ng mga Benepisyo',
-                'category': 'Insurance',
-                'definition': 'Explanation of benefits sent to the beneficiary'
+                'english': 'Living Will',
+                'russian': 'завещание о жизни',
+                'spanish': 'testamento vital',
+                'arabic': 'الوصية الحية',
+                'french': 'testament de vie',
+                'german': 'Patientenverfügung',
+                'chinese': '生前预嘱',
+                'thai': 'พินัยกรรมเพื่อชีวิต',
+                'filipino': 'buhay na testamento',
+                'category': 'legal',
+                'definition': 'A document that indicates the type of care a patient wants in the event they become incompetent to make decisions. Завещание о жизни позволяет заранее выразить свои предпочтения в области медицинского обслуживания.'
             },
             {
-                'english': 'Order of Benefit Determination (OBD)',
-                'russian': 'Правила определения порядка оплаты',
-                'spanish': 'Determinación del Orden de Beneficios',
-                'arabic': 'تحديد ترتيب الاستحقاق',
-                'french': 'Règles de détermination de l\'ordre',
-                'german': 'Regeln zur Bestimmung der Reihenfolge',
-                'chinese': '福利确定顺序',
-                'thai': 'การกำหนดลำดับสิทธิประโยชน์',
-                'filipino': 'Pagpapasiya ng Pagkakasunod-sunod ng Benepisyo',
-                'category': 'Insurance',
-                'definition': 'Rules that determine order of payment'
+                'english': 'Advanced Directives',
+                'russian': 'предварительное распоряжение о медицинском обслуживании',
+                'spanish': 'directivas anticipadas',
+                'arabic': 'التوجيهات المسبقة',
+                'french': 'directives anticipées',
+                'german': 'Patientenverfügung',
+                'chinese': '预先指示',
+                'thai': 'คำสั่งล่วงหน้า',
+                'filipino': 'paunang direktiba',
+                'category': 'legal',
+                'definition': 'Legal documents that convey your decisions about end-of-life care (includes medical power of attorney, living will). Texas law requires that all patients be asked if they have advanced directives prior to admission.'
             },
             {
-                'english': 'Concurrent Review',
-                'russian': 'Обоснованность сроков пребывания',
-                'spanish': 'Revisión Concurrente',
-                'arabic': 'المراجعة المتزامنة',
-                'french': 'Vérification des durées de séjour',
-                'german': 'Prüfung der Aufenthaltsdauer',
-                'chinese': '同时审查',
-                'thai': 'การทบทวนระหว่างการรักษา',
-                'filipino': 'Pagsusuri habang nasa Ospital',
-                'category': 'Insurance',
-                'definition': 'Determines if inpatient stay is justified'
+                'english': 'Benign',
+                'russian': 'доброкачественный',
+                'spanish': 'benigno',
+                'arabic': 'حميد',
+                'french': 'bénin',
+                'german': 'gutartig',
+                'chinese': '良性',
+                'thai': 'ไม่ร้ายแรง',
+                'filipino': 'benigno',
+                'category': 'oncology',
+                'definition': 'Mild-natured; not cancerous.'
             },
             {
-                'english': 'Retrospective Review',
-                'russian': 'Медицинская необходимость госпитализации',
-                'spanish': 'Revisión Retrospectiva',
-                'arabic': 'المراجعة بأثر رجعي',
-                'french': 'Nécessité médicale de l\'hospitalisation',
-                'german': 'Prüfung der Krankenhausaufnahme',
-                'chinese': '回顾性审查',
-                'thai': 'การทบทวนหลังจำหน่าย',
-                'filipino': 'Pagsusuri pagkatapos ng Paglabas',
-                'category': 'Insurance',
-                'definition': 'Determines if treatment was medically necessary'
+                'english': 'Catheter',
+                'russian': 'катетер',
+                'spanish': 'catéter',
+                'arabic': 'قسطرة',
+                'french': 'cathéter',
+                'german': 'Katheter',
+                'chinese': '导管',
+                'thai': 'สายสวน',
+                'filipino': 'kateter',
+                'category': 'equipment',
+                'definition': 'A small tube allowing infusion or drainage of fluid. May also be called an IV line, port-a-cath, or Foley.'
             },
             {
                 'english': 'Preauthorization',
@@ -359,34 +362,34 @@ def register():
                 'definition': 'Approval needed before procedure'
             },
             {
-                'english': 'Formulary',
-                'russian': 'Список лекарств',
-                'spanish': 'Formulario',
-                'arabic': 'قائمة الأدوية المغطاة',
-                'french': 'Liste de médicaments',
-                'german': 'Medikamentenliste',
-                'chinese': '药品目录',
-                'thai': 'บัญชียา',
-                'filipino': 'Listahan ng Gamot',
-                'category': 'Insurance',
-                'definition': 'List of covered drugs'
+                'english': 'Constipation',
+                'russian': 'запор',
+                'spanish': 'estreñimiento',
+                'arabic': 'إمساك',
+                'french': 'constipation',
+                'german': 'Verstopfung',
+                'chinese': '便秘',
+                'thai': 'ท้องผูก',
+                'filipino': 'tibi',
+                'category': 'symptom',
+                'definition': 'Infrequent bowel movements.'
             },
             {
-                'english': 'Copayment',
-                'russian': 'Фиксированная оплата',
-                'spanish': 'Copago',
-                'arabic': 'الدفع المشترك',
-                'french': 'Participation fixe',
-                'german': 'Zuzahlung',
-                'chinese': '共付额',
-                'thai': 'การจ่ายร่วม',
-                'filipino': 'Co-payment',
-                'category': 'Insurance',
-                'definition': 'Fixed amount patient pays for service'
+                'english': 'CT (Computed Tomography)',
+                'russian': 'компьютерная томография (КТ)',
+                'spanish': 'tomografía computarizada (TC)',
+                'arabic': 'التصوير المقطعي المحوسب',
+                'french': 'tomodensitométrie (TDM)',
+                'german': 'Computertomographie (CT)',
+                'chinese': '计算机断层扫描（CT）',
+                'thai': 'การตรวจซีที (Computed Tomography)',
+                'filipino': 'CT (Computed Tomography)',
+                'category': 'diagnostics',
+                'definition': 'A diagnostic test with cross-sectional images (type of cross-sectional x-ray). Also called a CAT scan.'
             },
             {
                 'english': 'Deductible',
-                'russian': 'Сумма до начала страховки',
+                'russian': 'Сумма оплаты до начала страховки. Франшиза.',
                 'spanish': 'Deducible',
                 'arabic': 'الخصم',
                 'french': 'Franchise',
@@ -398,17 +401,17 @@ def register():
                 'definition': 'Amount patient pays before insurance starts'
             },
             {
-                'english': 'Coinsurance',
-                'russian': 'Процент оплаты после вычета',
-                'spanish': 'Coaseguro',
-                'arabic': 'التأمين المشترك',
-                'french': 'Coassurance',
-                'german': 'Krankenversicherungsbeitrag',
-                'chinese': '共保',
-                'thai': 'การร่วมจ่ายเปอร์เซ็นต์',
-                'filipino': 'Ko-insurance',
-                'category': 'Insurance',
-                'definition': 'Percentage patient pays after deductible'
+                'english': 'DNR (Do Not Resuscitate)',
+                'russian': 'не реанимировать (DNR)',
+                'spanish': 'no reanimar (DNR)',
+                'arabic': 'لا للإنعاش (DNR)',
+                'french': 'ne pas réanimer (DNR)',
+                'german': 'nicht reanimieren (DNR)',
+                'chinese': '不复苏（DNR）',
+                'thai': 'ไม่ช่วยชีวิต (DNR)',
+                'filipino': 'huwag buhayin muli (DNR)',
+                'category': 'legal',
+                'definition': 'A medical order not to perform CPR if the patient stops breathing or their heart stops.'
             },
             {
                 'english': 'Out-of-Pocket Maximum',
@@ -422,7 +425,7 @@ def register():
                 'filipino': 'Maksimum na Gastos sa Sariling Bulsa',
                 'category': 'Insurance',
                 'definition': 'Maximum patient pays per year'
-            },
+            }
         ]
         
         for term in all_terms:
@@ -452,6 +455,7 @@ def register():
         return redirect(url_for('index'))
     
     return render_template('register.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -534,6 +538,10 @@ def reset_password(token):
 def pricing():
     return render_template('pricing.html')
 
+@app.route('/trial')
+def trial():
+    return render_template('trial.html')
+
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'user_id' not in session:
@@ -612,14 +620,12 @@ def upload():
         
         # Check if file is CSV or Excel
         if file.filename.endswith('.csv'):
-            # Handle CSV
             stream = io.StringIO(file.stream.read().decode("UTF8"), newline=None)
             csv_input = csv.reader(stream)
             headers = [h.lower().strip() for h in next(csv_input)]
             rows = list(csv_input)
             
         elif file.filename.endswith('.xlsx'):
-            # Handle Excel
             try:
                 import openpyxl
                 workbook = openpyxl.load_workbook(file.stream)
@@ -702,10 +708,6 @@ def test():
     
     user = User.query.get(session['user_id'])
     return render_template('test.html', user=user)
-
-@app.route('/trial')
-def trial():
-    return render_template('trial.html')
 
 @app.route('/api/test-questions')
 def test_questions():
@@ -793,7 +795,7 @@ def add_card():
         chinese=request.form.get('chinese', ''),
         thai=request.form.get('thai', ''),
         filipino=request.form.get('filipino', ''),
-        definition=row_dict.get('definition', '').strip(),  # ← ADD THIS!
+        definition=request.form.get('definition', ''),
         category=request.form.get('category', 'general')
     )
     db.session.add(card)
@@ -833,9 +835,6 @@ def get_cards():
     cards = query.all()
     return jsonify([c.to_dict() for c in cards])
 
-# ------------------------------------------------------------
-# RUN THE APP
-# ------------------------------------------------------------
 @app.route('/set-language', methods=['POST'])
 def set_language():
     if 'user_id' not in session:
@@ -853,5 +852,9 @@ def set_language():
     db.session.commit()
     
     return jsonify({'status': 'success', 'message': f'Language updated to {language}'})
+
+# ------------------------------------------------------------
+# RUN THE APP
+# ------------------------------------------------------------
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
