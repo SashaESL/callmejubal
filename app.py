@@ -298,7 +298,7 @@ def register():
             },
             {
                 'english': 'Living Will',
-                'russian': 'завещание о жизни',
+                'russian': 'завещание о жизни. Завещание о жизни позволяет заранее выразить свои предпочтения в области медицинского обслуживания.',
                 'spanish': 'testamento vital',
                 'arabic': 'الوصية الحية',
                 'french': 'testament de vie',
@@ -307,7 +307,7 @@ def register():
                 'thai': 'พินัยกรรมเพื่อชีวิต',
                 'filipino': 'buhay na testamento',
                 'category': 'legal',
-                'definition': 'A document that indicates the type of care a patient wants in the event they become incompetent to make decisions. Завещание о жизни позволяет заранее выразить свои предпочтения в области медицинского обслуживания.'
+                'definition': 'A document that indicates the type of care a patient wants in the event they become incompetent to make decision.'
             },
             {
                 'english': 'Advanced Directives',
