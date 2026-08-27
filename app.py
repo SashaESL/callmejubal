@@ -2237,7 +2237,7 @@ def upgrade_premium():
             folder='premium'
         )
         db.session.add(card)
-    
+        print(f"Adding {len(premium_terms)} premium terms for user {user.username}")
     db.session.commit()
     flash('🎉 Premium dictionary added! You now have access to 128 medical terms.', 'success')
     return redirect(url_for('study'))
@@ -2266,7 +2266,7 @@ def profile():
         flash('Preferences updated!', 'success')
     
     languages = ['english', 'russian', 'spanish', 'arabic', 'french', 'german', 'chinese', 'thai', 'filipino']
-    folders = ['general', 'medical', 'insurance', 'legal', 'oncology', 'cardiology', 'emergency']
+    folders = ['general', 'medical', 'insurance', 'legal', 'oncology', 'cardiology', 'emergency', 'premium']
     return render_template('profile.html', user=user, languages=languages, folders=folders)
 
 # ------------------------------------------------------------

@@ -2,3 +2,4 @@ __pycache__/
 instance/ 
 *.pyc 
 *.pyo  git rm app.py
+"templates/!DOCTYPE html.txt" 
