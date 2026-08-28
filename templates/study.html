@@ -14,6 +14,8 @@
         .card .translation { font-size: 1.8rem; color: #2b6cb0; display: none; }
         .card .definition { font-size: 1rem; color: #4a5568; margin-top: 10px; border-top: 1px solid #e2e8f0; padding-top: 10px; display: none; }
         .card .category { margin-top: 10px; background: #bee3f8; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; color: #2a69ac; }
+        
+        /* Button styles */
         .btn { padding: 12px 30px; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; margin: 5px; transition: 0.3s; }
         .btn-primary { background: #2b6cb0; color: white; }
         .btn-primary:hover { background: #1a365d; transform: translateY(-2px); }
@@ -23,6 +25,14 @@
         .btn-danger:hover { background: #c53030; }
         .btn-secondary { background: #a0aec0; color: white; }
         .btn-secondary:hover { background: #718096; }
+        .btn-lightblue {
+            background: #63b3ed;
+            color: white;
+        }
+        .btn-lightblue:hover {
+            background: #4299e1;
+        }
+        
         .hidden { display: none; }
         .progress { margin: 15px 0; color: #4a5568; }
         .back-link { display: block; margin-top: 20px; color: #2b6cb0; text-decoration: none; }
@@ -47,10 +57,10 @@
         <div id="ratingButtons" class="hidden">
             <button class="btn btn-lightblue" onclick="rateCard('correct')">☑️ Correct</button>
             <button class="btn btn-danger" onclick="rateCard('wrong')">❌ Wrong</button>
-            <button class="btn btn-secondary" onclick="rateCard('skip')">⏭️ Skip</button>
+            <button class="btn btn-lightblue" onclick="rateCard('skip')">⏭️ Skip</button>
         </div>
 
-        <button class="btn btn-secondary" id="speakBtn" onclick="speakCard()" style="margin-top:10px;">🔊 Listen</button>
+        <button class="btn btn-lightblue" id="speakBtn" onclick="speakCard()" style="margin-top:10px;">🔊 Listen</button>
         <a href="/" class="back-link">← Back to Home</a>
     </div>
 
