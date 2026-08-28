@@ -3,3 +3,4 @@ instance/
 *.pyc 
 *.pyo  git rm app.py
 "templates/!DOCTYPE html.txt" 
+"templates/!DOCTYPE html.txt" 
