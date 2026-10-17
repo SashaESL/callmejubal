@@ -1719,6 +1719,7 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     language = db.Column(db.String(20), default='english')
     folder = db.Column(db.String(100), default='general')
+    is_premium = db.Column(db.Boolean, default=False)
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -2213,11 +2214,13 @@ def upgrade_premium():
     
     user = User.query.get(session['user_id'])
     
-    # Check if user already has premium terms
-    existing = Flashcard.query.filter_by(user_id=user.id, folder='premium').first()
-    if existing:
-        flash('You already have premium terms!', 'info')
+    if user.is_premium:
+        flash('You are already a premium member!', 'info')
         return redirect(url_for('study'))
+    
+    return render_template('premium_payment.html')
+
+
     
     # Add all premium terms
     for term in premium_terms:
@@ -2556,6 +2559,36 @@ def set_language():
     db.session.commit()
     
     return jsonify({'status': 'success', 'message': f'Language updated to {language}'})
+
+# ------------------------------------------------------------
+# RUN THE APP
+# ------------------------------------------------------------
+@app.route('/admin/unlock/<username>')
+def admin_unlock(username):
+    if session.get('username') != 'victoria': 
+        flash('Unauthorized', 'danger')
+        return redirect(url_for('index'))
+    
+    user = User.query.filter_by(username=username).first()
+    if user:
+        user.is_premium = True
+        existing = Flashcard.query.filter_by(user_id=user.id, folder='premium').first()
+        if not existing:
+            for term in premium_terms:
+                card = Flashcard(
+                    user_id=user.id, english=term['english'], russian=term['russian'],
+                    spanish=term['spanish'], arabic=term['arabic'], french=term['french'],
+                    german=term['german'], chinese=term['chinese'], thai=term['thai'],
+                    filipino=term['filipino'], category=term['category'], 
+                    definition=term['definition'], folder='premium'
+                )
+                db.session.add(card)
+        db.session.commit()
+        flash(f'{username} is now a premium user!', 'success')
+    else:
+        flash('User not found.', 'danger')
+    
+    return redirect(url_for('index'))
 
 # ------------------------------------------------------------
 # RUN THE APP
