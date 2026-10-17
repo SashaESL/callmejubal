@@ -2214,6 +2214,10 @@ def upgrade_premium():
     
     user = User.query.get(session['user_id'])
     
+    if not user:
+        flash('User not found. Please login again.', 'warning')
+        return redirect(url_for('logout'))
+    
     if user.is_premium:
         flash('You are already a premium member!', 'info')
         return redirect(url_for('study'))
