@@ -2305,6 +2305,7 @@ def index():
                          username=session.get('username'),
                          user=user)
 
+
 @app.route('/study')
 def study():
     if 'user_id' not in session:
@@ -2322,7 +2323,10 @@ def study():
     cards = Flashcard.query.filter_by(user_id=user_id, folder=user.folder).all()
     languages = ['english', 'russian', 'spanish', 'arabic', 'french', 'german', 'chinese', 'thai', 'filipino']
     
-    return render_template('study.html', cards=cards, languages=languages, user=user)@app.route('/upload', methods=['GET', 'POST'])
+    return render_template('study.html', cards=cards, languages=languages, user=user)
+
+
+@app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if 'user_id' not in session:
         flash('Please login to upload!', 'warning')
@@ -2330,6 +2334,10 @@ def upload():
     
     user_id = session['user_id']
     user = User.query.get(user_id)
+    
+    if not user:
+        flash('Session expired. Please login again.', 'warning')
+        return redirect(url_for('logout'))
     
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -2396,6 +2404,7 @@ def upload():
     
     return render_template('upload.html', user=user)
 
+
 @app.route('/stats')
 def stats():
     if 'user_id' not in session:
@@ -2404,6 +2413,10 @@ def stats():
     
     user_id = session['user_id']
     user = User.query.get(user_id)
+    
+    if not user:
+        flash('Session expired. Please login again.', 'warning')
+        return redirect(url_for('logout'))
     
     total = Flashcard.query.filter_by(user_id=user_id, folder=user.folder).count()
     mastered = Flashcard.query.filter_by(user_id=user_id, folder=user.folder).filter(Flashcard.correct_count >= 3).count()
@@ -2421,6 +2434,7 @@ def stats():
                          categories=categories,
                          user=user)
 
+
 @app.route('/test')
 def test():
     if 'user_id' not in session:
@@ -2428,7 +2442,13 @@ def test():
         return redirect(url_for('login'))
     
     user = User.query.get(session['user_id'])
+    
+    if not user:
+        flash('Session expired. Please login again.', 'warning')
+        return redirect(url_for('logout'))
+        
     return render_template('test.html', user=user)
+
 
 @app.route('/api/test-questions')
 def test_questions():
@@ -2437,6 +2457,9 @@ def test_questions():
     
     user_id = session['user_id']
     user = User.query.get(user_id)
+    
+    if not user:
+        return jsonify([])
     
     lang = user.language if user and user.language else 'russian'
     cards = Flashcard.query.filter_by(user_id=user_id, folder=user.folder).all()
@@ -2477,6 +2500,7 @@ def test_questions():
     
     return jsonify(questions)
 
+
 @app.route('/api/study/<int:card_id>/<lang>/<result>')
 def record_result(card_id, lang, result):
     if 'user_id' not in session:
@@ -2495,6 +2519,7 @@ def record_result(card_id, lang, result):
     db.session.commit()
     return jsonify({'status': 'success'})
 
+
 @app.route('/add', methods=['POST'])
 def add_card():
     if 'user_id' not in session:
@@ -2503,6 +2528,10 @@ def add_card():
     
     user_id = session['user_id']
     user = User.query.get(user_id)
+    
+    if not user:
+        flash('Session expired. Please login again.', 'warning')
+        return redirect(url_for('logout'))
     
     card = Flashcard(
         user_id=user_id,
@@ -2524,6 +2553,7 @@ def add_card():
     flash('Card added successfully!', 'success')
     return redirect(url_for('index'))
 
+
 @app.route('/delete/<int:card_id>')
 def delete_card(card_id):
     if 'user_id' not in session:
@@ -2537,6 +2567,7 @@ def delete_card(card_id):
     db.session.delete(card)
     db.session.commit()
     return jsonify({'status': 'success'})
+
 
 @app.route('/api/cards')
 def get_cards():
@@ -2556,6 +2587,7 @@ def get_cards():
     cards = query.all()
     return jsonify([c.to_dict() for c in cards])
 
+
 @app.route('/set-language', methods=['POST'])
 def set_language():
     if 'user_id' not in session:
@@ -2568,15 +2600,17 @@ def set_language():
         return jsonify({'status': 'error', 'message': 'Invalid language'})
     
     user = User.query.get(session['user_id'])
+    
+    if not user:
+        return jsonify({'status': 'error', 'message': 'Session expired'})
+        
     user.language = language
     session['language'] = language
     db.session.commit()
     
     return jsonify({'status': 'success', 'message': f'Language updated to {language}'})
 
-# ------------------------------------------------------------
-# RUN THE APP
-# ------------------------------------------------------------
+
 @app.route('/admin/unlock/<username>')
 def admin_unlock(username):
     if session.get('username') != 'victoria': 
@@ -2603,6 +2637,7 @@ def admin_unlock(username):
         flash('User not found.', 'danger')
     
     return redirect(url_for('index'))
+
 
 # ------------------------------------------------------------
 # RUN THE APP
