@@ -2286,6 +2286,12 @@ def index():
     
     user_id = session['user_id']
     user = User.query.get(user_id)
+    
+    # Safety check: if user session expired or user is not found
+    if not user:
+        flash('Session expired. Please login again.', 'warning')
+        return redirect(url_for('logout'))
+    
     cards = Flashcard.query.filter_by(user_id=user_id).all()
     categories = db.session.query(Flashcard.category).distinct().filter_by(user_id=user_id).all()
     categories = [c[0] for c in categories if c[0]]
@@ -2307,12 +2313,16 @@ def study():
     
     user_id = session['user_id']
     user = User.query.get(user_id)
+    
+    # Safety check: if user session expired or user is not found
+    if not user:
+        flash('Session expired. Please login again.', 'warning')
+        return redirect(url_for('logout'))
+    
     cards = Flashcard.query.filter_by(user_id=user_id, folder=user.folder).all()
     languages = ['english', 'russian', 'spanish', 'arabic', 'french', 'german', 'chinese', 'thai', 'filipino']
     
-    return render_template('study.html', cards=cards, languages=languages, user=user)
-
-@app.route('/upload', methods=['GET', 'POST'])
+    return render_template('study.html', cards=cards, languages=languages, user=user)@app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if 'user_id' not in session:
         flash('Please login to upload!', 'warning')
